@@ -32,9 +32,39 @@ def make_change_iterative(coins, n):
                 solutions[(current_coins, j)] = solutions[(current_coins[:-1], j)] + solutions.get((current_coins, j-current_coins[-1]), 0)
     return solutions[coins, n]
 
+def make_change_recursive(coins, n, memo=None):
+    # Decide how many times you are going to use a coin (I like to think of going from largest
+    # to smallest, but it doesn't actually matter), then use recursion on what's left!!
 
-n = 4
-coins = (1, 2, 3)
-print(make_change_iterative(coins, n))
+    if memo is None:
+        memo = dict()
+
+    # The base cases.  If you've run out of coins and still need to give out more change, this isn't a solution.
+    # If you've run out of coins and don't need to give any more change, this is a solution.
+    if not coins:
+        if n == 0:
+            return 1
+        else:
+            return 0
+
+    # Use memoisation - if we've done this particular problem before, look the answer up
+    if (tuple(coins), n) in memo:
+        print('Using memo dict for: %s' % str((tuple(coins), n)))
+        return memo[(tuple(coins), n)]
+
+    currentCoin = coins[0]
+    result = 0
+    j = 0
+    while j * currentCoin <= n:
+        # So here I'm imagining that in my change I have j of currentCoin.
+        result += make_change_recursive(coins[1:], n - j*currentCoin, memo)
+        j += 1
+    memo[(tuple(coins), n)] = result
+
+    return result
+
+n = 20
+coins = (1, 2, 3, 4)
+print(make_change_recursive(coins, n))
 
 # Would be nice to write out a successful recursive solution that uses memoisation
