@@ -12,10 +12,11 @@ def non_adj_sub_arrays_recursion(arr):
     """
 
     for index, i in enumerate(arr):
-        if index + 2 < len(arr):
-            for j in non_adj_sub_arrays_recursion(arr[index + 2:]):
-                yield [i] + j
-        else:
+        if i > 0:
+            if index + 2 < len(arr):
+                for j in non_adj_sub_arrays_recursion(arr[index + 2:]):
+                    if sum(j) > 0:
+                        yield [i] + j
             yield [i]
     yield []
 
@@ -26,7 +27,15 @@ def maxSubsetSumRecursion(arr):
         if len(a) > 0:
             if max_sum is None or sum(a) > max_sum:
                 max_sum = sum(a)
-    return max_sum
+    if max_sum:
+        return max_sum
+    else:
+        return max(arr)
 
 
-print(maxSubsetSumRecursion([8, -1, -1]))
+
+
+print(maxSubsetSumRecursion([3, 5, -7, 8, 10]))
+import random
+x = [random.randint(-10, 10) for i in range(1000)]
+print(maxSubsetSumRecursion(x))
