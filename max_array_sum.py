@@ -33,9 +33,24 @@ def maxSubsetSumRecursion(arr):
         return max(arr)
 
 
+def maxSubsetSum(arr):
+    max_inc_last, max_not_inc_last = 0, 0
+    positive_number = False
+    for index, i in enumerate(arr):
+        if i > 0:
+            positive_number = True
+        max_inc_last, max_not_inc_last = max_not_inc_last + i, max(max_inc_last, max_not_inc_last)
+        print('Considering: {}'.format(arr[:index+1]))
+        print('max inc last: {}'.format(max_inc_last))
+        print('max not inc last: {}'.format(max_not_inc_last))
+    if positive_number:
+        return max(max_not_inc_last, max_inc_last)
+    else:
+        return max(arr)
 
 
-print(maxSubsetSumRecursion([3, 5, -7, 8, 10]))
-import random
-x = [random.randint(-10, 10) for i in range(1000)]
-print(maxSubsetSumRecursion(x))
+
+print(maxSubsetSum([-7, -3, 6]))
+# import random
+# x = [random.randint(-10, 10) for i in range(1000)]
+# print(maxSubsetSum(x))
