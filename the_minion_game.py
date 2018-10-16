@@ -2,7 +2,7 @@
 import collections
 
 
-def minion_game(string):
+def minion_game_needlessly_complicated(string):
     counter_kevin = collections.Counter()
     counter_stuart = collections.Counter()
     vowels = set({'A', 'E', 'I', 'O', 'U'})
@@ -14,6 +14,23 @@ def minion_game(string):
 
     stuart = sum(counter_stuart.values())
     kevin = sum(counter_kevin.values())
+
+    if kevin == stuart:
+        print('Draw')
+    elif kevin > stuart:
+        print('Kevin {}'.format(kevin))
+    else:
+        print('Stuart {}'.format(stuart))
+
+
+def minion_game(string):
+    vowels = 'AEIOU'
+    kevin, stuart = 0, 0
+    for index, i in enumerate(string):
+        if i in vowels:
+            kevin += len(string) - index
+        else:
+            stuart += len(string) - index
 
     if kevin == stuart:
         print('Draw')
