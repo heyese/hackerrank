@@ -40,6 +40,17 @@ def beautifulBinaryString(b):
     return moves
 
 
+def beautifulBinaryString_simple(b):
+
+    # Oh dear - this is much easier.
+    # An easier idea - effectively what I was doing before, but without realising it,
+    # is to work left to right and, for every '010' pattern, replace the last '0'
+    # with a '1'.
+    # That gets rid of all '01010' patterns and all single '010' patterns.
+    # The number of replacements can easily be calculated by comparing the length
+    # of the resulting string to the original.
+    a = b.replace('010', '')
+    return int((len(b) - len(a))/3)
 
 
 
