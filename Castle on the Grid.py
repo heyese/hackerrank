@@ -14,10 +14,16 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
     num_moves = 0
     start = (startX, startY)
     finish = (goalX, goalY)
+    if start == finish:
+        return 0
 
     # So (check_horizontal union check_vertical) is the set of points we've visited
     check_horizontal = {start}
     check_vertical = {start}
+    checked_horizontal = collections.defaultdict(lambda: False)
+    checked_vertical = collections.defaultdict(lambda: False)
+    checked_horizontal[start] = checked_vertical[start] = True
+
     # And (check_horizontal_next union check_vertical_next) is the set of points
     # we can get to in one move
     check_horizontal_next = set()
@@ -33,6 +39,10 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
                     range(column - 1, -1, -1)  # walking left
             ):
                 for i in r:
+                    if checked_horizontal[(row, i)]:
+                        # We've checked this line before
+                        break
+                    checked_horizontal[(row, i)] = True
                     if is_open_cell[(row, i)]:
                         check_vertical_next.add((row, i))
                     else:
@@ -48,6 +58,10 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
                     range(row - 1, -1, -1)  # walking up
             ):
                 for i in r:
+                    if checked_vertical[(i, column)]:
+                        # We've checked this column before
+                        break
+                    checked_vertical[(i, column)] = True
                     if is_open_cell[(i, column)]:
                         check_horizontal_next.add((i, column))
                     else:
@@ -58,7 +72,6 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
         check_horizontal_next = set()
         check_vertical_next = set()
         num_moves += 1
-
     return num_moves
 
 
