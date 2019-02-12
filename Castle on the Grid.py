@@ -43,11 +43,10 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
                         # We've checked this line before
                         break
                     checked_horizontal[(row, i)] = True
-                    if is_open_cell[(row, i)]:
-                        check_vertical_next.add((row, i))
-                    else:
+                    if not is_open_cell[(row, i)]:
                         # If it's a blocked cell, we can't go further
                         break
+                    check_vertical_next.add((row, i))
 
         for row, column in check_vertical:
             # Explore walking up and down from this point.
@@ -62,10 +61,9 @@ def minimumMoves(grid, startX, startY, goalX, goalY):
                         # We've checked this column before
                         break
                     checked_vertical[(i, column)] = True
-                    if is_open_cell[(i, column)]:
-                        check_horizontal_next.add((i, column))
-                    else:
+                    if not is_open_cell[(i, column)]:
                         break
+                    check_horizontal_next.add((i, column))
 
         check_horizontal = check_horizontal_next
         check_vertical = check_vertical_next
