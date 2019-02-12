@@ -34,30 +34,29 @@ def truckTour(petrolpumps):
     # When you run out of fuel (ie. p-d at ahead is lower than p-d behind), you advance to the next petrol pump
     # where this isn't the case.
     times_round = 0
-    journey = []
-    start = True
+
+    # Journey is a cumulative list of the petrol we have left at each pump
+    journey = [0]
     while True:
         for i, (p, d) in enumerate(petrolpumps):
-            if start:
-                journey.append(p-d)
-                start = False
-            else:
-                journey.append(journey[-1] + p - d)
+            journey.append(journey[-1] + p - d)
         times_round += 1
         num_pumps = i
         if times_round == 2:
             break
-    print(journey)
 
     behind_index, ahead_index = 0, 0
+    pumps_visited = 0
     while ahead_index - behind_index < num_pumps:
         if journey[ahead_index] < journey[behind_index]:
             # Can't get all the way round starting from pump[behind_index]
             behind_index += 1
-            continue
-        ahead_index += 1
-    print(behind_index)
-
+        else:
+            ahead_index += 1
+        pumps_visited += 1
+        if pumps_visited > 2 * num_pumps:
+            return 'Not Possible'
+    return behind_index
 
 
 if __name__ == '__main__':
