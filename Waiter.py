@@ -4,11 +4,10 @@ import math
 
 def primes():
 
-    num = 2
-    yield num
-    primes = [num]
+    yield 2
+    primes = [2]
+    num = 3
     while True:
-        num += 1
         num_prime = True
         for p in primes:
             if p > math.sqrt(num):
@@ -18,6 +17,8 @@ def primes():
         if num_prime:
             primes.append(num)
             yield num
+        num += 2
+
 
 def waiter(numbers, q):
     prime_gen = primes()
